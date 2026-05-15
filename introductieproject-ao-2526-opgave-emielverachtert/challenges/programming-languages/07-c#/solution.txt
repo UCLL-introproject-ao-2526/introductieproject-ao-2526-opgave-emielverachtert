@@ -1,1 +1,1 @@
-Delphi / Object Pascal
+Turbo Pascal

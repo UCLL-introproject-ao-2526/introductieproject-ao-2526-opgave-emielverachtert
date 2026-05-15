@@ -57,7 +57,7 @@ BRONNEN :
 ## 9 MEI 2026 (  2 hours )
 Ik werk verder aan het menu , het probleem was dat de Deal-knop die de game afsloot.
 Ik run de game nog eens en ga kijken naar wat de foutmelding precies zegt.
-De foutmelding geeft aan dat de fout op lijn 238 zit. Mijn eerste gedacht was dat ik de indexen miss nog niet goed had aangepast maar al snel viel me iets anders op. De menu knop werd wel op het scherm getekend maar stond nooit in button_listt. iK WAS VERGETEN OM DE BUTTON-LISTT.APPEND(menu_btn) toe te voegen. Zonder die regel stond de knop visueel in de game maar bestond hij nog niet voor de event handeing daarom dat ik dus de index fout kreeg.
+De foutmelding geeft aan dat de fout op lijn 238 zit. Mijn kuneerste gedacht was dat ik de indexen miss nog niet goed had aangepast maar al snel viel me iets anders op. De menu knop werd wel op het scherm getekend maar stond nooit in button_listt. iK WAS VERGETEN OM DE BUTTON-LISTT.APPEND(menu_btn) toe te voegen. Zonder die regel stond de knop visueel in de game maar bestond hij nog niet voor de event handeing daarom dat ik dus de index fout kreeg.
 
 Ik vond dit interesant  omdat het visueel leek te werken maar onderliggend volledig kapot was . Dit leerde me dat tekenen en logica twee aparte dingen in Pygame zijn. in de toekolst  ga ik er bewusst op letten dat elke knop die ik maak ook aan de lijst toegevoed wordt .
 
@@ -89,6 +89,56 @@ UI aanpassingen:
 -DEALHAND knop naar beneden verplaatst naar y = 150
 - NEW  HAND knop verplaatst naar y = 950 onder scores
 - scherm groter gemaakt 
+
+
+
+## 11 MEI 2026 ( 1 hour   )
+
+Ik ga nu verder met het oplossen van het vorige probleem.
+het probleem was dat als het spel gedaan was dat ik geen nieuw spel kon starten de button was verdwenen. 
+
+ik ben eerst gan kijken naar de event handling in de game loop omdat ik vermoede dat de knoppen niet correct reageerde op de spelstatus. ik dacht dat het probleem zat in draw_game() dat de verkeerde knoppen getoond werden maar na verder onderzoek zag ik dat het probleem dieper zat. de variabele active werd niet correct gereset wanneer ik vanuit het menu terugkeerde naar de game.
+
+de oplossing zat in twee delen . eerst voor een nieuw spel moesten alle spelvariabelen volledig gereset worden . en als tweede wanneer dat de speler op de main menu knop klikt wordt active op False gezet zodat als je terug gaat naar het start scherm de juiste het juiste scherm getoond wordt met enkel de deal hand knop.
+
+het moeilijkste was niet het fixxen zelf maar begrijpen welke variabelen precies de spelstatus bepaalden . er waren meerdere variabelen die samen de toestand van de game bepaalde . en als er 1 hiervan niet gereset werd gedroeg de game zich onvoorspelbaar. 
+
+
+
+Nu dat ik wat functionaliteit heb toegevoegt zou het leuk zijn dat er een muziekje op de achtergrond speeld. Hiervoor heb ik even gegoogled hoe ik muziek kan toevoegen in pygame. Ik heb gebruik gemaakt van de functie pygame.mixer.init() dit is de audio-engine van pygame. ik heb er voor gekozen om een muziekje uit de pixabay website te downloaden zodat ik deze mag gebruiken.Vervolgens deze in dezelfde map als mijn project bestanden gezet zodat ik deze kon gebruiken.
+
+Dit was niet zo moeilijk maar toch geeft het een leuke speel ervaring voor de speler.
+Het ziet er eig al tof uit maar als ik met de button terug naar main menu ga wil ik ook dat er een quit button komt te staan. Zodat je vannaf het main menu ervoor kunt kiezen om de game af te sluiten.
+
+Hiervoor heb ik de knop getekend In draw_menu() ik heb gekozen om deze de kleur rood te geven en een lagere positie zodat deze knop onder de start game button staat. en ervoor gezorgd dat de tekst QUIT GAME erop komt. 
+
+Ik kreeg een attribute error dit kwam doordat ik de twee buttons als een tuple behandelde wat dus een error gaf . De opplossing hiervoor was om de twee knoppen als losse objecten te behandelen en ervoor gezorgt dat ik in de aanroep ook de quit_btn aanroep. Als laatste moest ik ervoor zorgen dat de knop quit game ook effectief de game afsloot dit heb iik gedaan door de actie run = False te koppelen.
+
+
+## 14 MEI 2026 (2 u)
+
+Ik heb er nu voor gezorgd dat mijn game aangenamer is voor de speler , ik heb een menu gemaakt waar de speler kan kiezen om het spel te starten of om te stoppen.
+ook heb ik de UI aantrekkelijker gemaakt door kleuraanpassingen te doen en om een muziekje toe te voegen als de game opgestart wordt.
+
+Ik werkte voordien altijd op een extern monitort, nu dat ik de game enkel op mijn laptop speel merk ik dat het speel scherm er niet op past. Ik wil dit gaan aanpassen zodat de game op elk scherm speelbaar is. Ik weet niet zo goed hoe ik hieraan begin dus begin ik met het zoeken naar informatie waarmee ik nadien aan de slag kan gaan.
+
+Ik begin met het importeren van os en volg een paar stappen van de tutorial. met Deze code zorgt ik ervoor dat Pygame-venster bijna full-screen is, maar met een kleine marge aan de randen. Ik gebruikt de resolutie van het huidige scherm om de grootte dynamisch aan te passen. Ik merk echter dat dit nog niet de beste optie is omdat mijn buttons zicht niet automatish aanpassen , hiervoor moet ik dus iets aanpassen. Ik heb voor de  buttons een vaste positie gekozen wat nu niet meer klopt.Ook denk ik eraan dat dit waarschijnlijk ook het probleem gaat zijn met mijn kaarten en fonts.. Ik ga dit verder onderzoeken en stel hierbij een vraag aan chat gpt.
+
+Ik stel de volgende prompt aan chatgpt en krijg de volgende oplossingen aangeboden:
+
+Mijn promt:
+Ik heb mijn Pygame-venster bijna full-screen gemaakt. Door gebruik te maken van de resolutie van het huidige scherm, kan de grootte van het venster dynamisch worden aangepast.
+mijn Buttons hebben nog vaste posities, waardoor sommige knoppen buiten het scherm vallen bij andere resoluties.
+Welke mogelijke oplossingen kan ik toepassen zodat de knoppen altijd correct op het scherm worden weergegeven, ongeacht de schermgrootte?
+
+een mogelijke oplossing die ik krijg is het gebruik maken van relatieve posities en schaalfactoren. Om hier meer over te weten ga ik dit eens opzoeken , zo krijg ik een beter inzicht over relatieve posities en schaalfactoren.
+
+
+## 15 MEI 2026 ()
+
+Ik ga verder uitzoeken hoe ik ervoor zorg dat mijn buttons ook 
+
+
 
 
 

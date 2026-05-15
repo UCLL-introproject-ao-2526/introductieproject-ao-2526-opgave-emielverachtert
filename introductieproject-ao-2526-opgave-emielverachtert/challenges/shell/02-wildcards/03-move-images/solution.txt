@@ -1,1 +1,1 @@
-mv *.jpg *.png images
+mv *.png *.jpg images/

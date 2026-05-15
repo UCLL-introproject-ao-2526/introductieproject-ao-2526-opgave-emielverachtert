@@ -1,0 +1,20 @@
+Reflectie bij video https://www.youtube.com/watch?v=iwUR0kOVNs8
+
+De spreker Bryan Liles spreekt in deze video over het schrijven van testen binnen softwareontwinkkeling.
+Hij vertelt Voornamelijk over zijn ervaringen met TDD (Test-Driven Development) en BDD (Behavior-Driven Development).Volgens hem zijn testen niet alleen belangrijk om fouten te vinden, maar ook om betere en duidelijke software te schrijven.
+
+Een belangrijk punt dat hij aanhaalt is dat hij vroeger zelf slechte testen schreef. En dat zijn testen schreef die eigenlijk teveel op zijn originele code leek. Hierdoor waren zijn testen minder nuttig en moeilijker te onderhouden.
+
+Daarnaast legt Bryan Liles uit dat TDD developers helpt om eerst na te denken over at de code precies moet doen voordat ze beginnnen te programmeren. Door eerst testen te schrijven, wordt de structuur van de code beter en overzichtelijk. Hij benadrukt dat veel programmeurs testen schrijven omdat het moet en niet omdat ze echt begrijpen waarom testen belangrijk zijn.
+
+Verder bespreekt hij BDD waarbij de focus ligt op het gedrag van de applicatie vanuit het standpunt van de gebruiker. Hierdoor werken developers, testers en andere teamleden beter samen omdat de testen in duidelijke taal beschreven worden.
+
+
+reflectie:
+
+Wat ik interessant vond aan deze video is de manier hoe hij zijn eigen probleem aanpakt. En hiermee aan de slag gaat. Ik ben het er zeker mee eens dat het belangrijk is dat teamleden op een goede manier moeten kunnen samenwerken en dat er hier extra aandacht aan word bested. Ik vond zijn presentie stijl echter minder goed omdat hij gebruik maakt van humor en heel snel vooruit gaat , waardoor het moeilijker is om te volgen.
+
+
+Conclusie:
+
+De spreker is obsessed met het schrijven van testen, dit kan je afleiden door de manier waarop hij over test praat. Ook krijg je een goed beeld over zijn Frustraties mee over testen. Zijn presentatie stijl is zeer druk en chaotisch.

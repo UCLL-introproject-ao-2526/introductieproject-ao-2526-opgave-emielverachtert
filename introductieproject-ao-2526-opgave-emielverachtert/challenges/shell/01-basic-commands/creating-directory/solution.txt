@@ -1,1 +1,1 @@
-mkdir sub
+mkdir sub/
