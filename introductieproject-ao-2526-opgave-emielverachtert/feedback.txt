@@ -1,0 +1,16 @@
+Beste Daan,
+
+Ondertussen ben ik bijna aan het einde van deze cursus.
+Tijdens het volgen van deze cursus heb ik veel bijgeleerd en wil ik jou graag feedback geven over hoe ik de cursus ervaarde.
+Ik leerde in de cursus om te werken met Git-directories. Dit vond ik in het begin best moeilijk om te leren begrijpen hoe je repo juist werkt.
+Omdat ik het moeilijk vond om mijn weg in Git te vinden, moest ik vaak teruggaan kijken in de cursus over hoe ik dit moest aanpakken.
+Wat ik fijn vond, is dat ik hierdoor leerde om zelf informatie op te zoeken en om hulp te vragen aan de lector.
+Tijdens deze cursus kwam het vaak voor dat ik zelf informatie moest opzoeken. Dit vond ik in het begin best lastig, maar tijdens de challenges leerde ik om informatie op te zoeken. De challenges gaven mij soms een foutcode. Wat ik jammer vond, is dat er geen verdere uitleg werd gegeven over de fout zelf,
+Waardoor ik soms niet wist hoe ik fouten kon oplossen. Wat kon helpen, is om eventueel wat extra tips toe te voegen als ik een challenge maak, dat die fout is dat ik een foutmelding krijg als 'Het wachtwoord is te kort, dit moet minstens 6 cijfers lang zijn'. 
+
+
+Ik vond het een boeiende cursus waar ik vooral geleerd heb om informatie te gaan zoeken, zowel online als bij een docent. Ook ben ik hier communicatief sterker door geworden en durf ik ook om hulp te vragen.
+
+Met vriendelijke groeten,
+Emiel Verachtert
+
