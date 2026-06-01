@@ -46,6 +46,8 @@ BASE_H = 1100
 SW, SH = screen.get_size()
 
 #schaalfactoren berekenen
+
+#[dn] variabele namen kunnen better, als ik SX in je code zie, weet ik niet waarover het gaat. Dat gaat ook op voor de volgende functies
 SX = SW / BASE_W
 SY = SH / BASE_H
 
@@ -61,13 +63,13 @@ tiny_font = pygame.font.Font('freesansbold.ttf', int(24 * SY))
 
 
 #load img
-img = pygame.image.load('openclipart-vectors-card-games-146687_1280.png')
+img = pygame.image.load('openclipart-vectors-card-games-146687_1280.png') #[dn] je mag gerust files renamen 
 img = pygame.transform.scale(img, (screen.get_width(), screen.get_height()))
 
 
     
 
-
+#[dn] typo in comment. Zorg dat je altijd je spellcheck aan hebt staan in vscode
 #deal cards by selecting randomly from ddeck, and make function for one card at a time
 def deal_cards(current_hand,current_deck):
     card = random.randint(0, len(current_deck))
@@ -105,6 +107,7 @@ def draw_cards(player, dealer , reveal):
 
     #if player hasn't finished turn, dealer will hide one card
     for i in range(len(dealer)):
+        #[dn] zelfde opmerking met gap. Welke gap? Een betere variabelenaam zou hier helpen
         x = dealer_start_x + gap * i 
         y = dealer_y
         pygame.draw.rect(screen, 'white', [x, y, card_w, card_h], 0, 5)
@@ -162,11 +165,11 @@ def draw_game(act, record,result):
         pygame.draw.rect(screen, 'black', [btn_x, btn_y, btn_w, btn_h], 3, 8)
         deal_text = font.render('DEAL HAND', True, 'black')
         screen.blit(deal_text, deal_text.get_rect(center=(btn_x + btn_w // 2, btn_y + btn_h // 2)))
-        button_list.append(deal)
+        button_list.append(deal) #[dn] consistentie: gebruik ofwel alijd btn, ofwel altijd button
     # once game started, shot hit and stand buttons and win/loss records
     else:
         btn_h = int(60 * SY)
-        btn_w = 200
+        btn_w = 200 #[dn] vreemd dat je verticaal scaled, maar niet horizontaal
         btn_y = int(SH * 0.82)
 
         # HIT ME links gecentreerd
@@ -321,6 +324,9 @@ while run:
             if event.type == pygame.MOUSEBUTTONUP:
                 if not active:
                     if buttons[1].collidepoint(event.pos):
+                        #[dn] hier ben je wel idep aan het nesten. Je kan met 'and' meerdere condities checken in 1 if. 
+                        #[dn] probeer maximaal 3 'levels' te indenteren
+                        #[dn] gebruik eventueel kleinere functies
                         active = True
                         initial_deal = True
                         game_deck = copy.deepcopy(decks * one_deck)
