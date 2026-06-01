@@ -5,7 +5,6 @@ import os
 
 os.environ['SDL_VIDEO-CENTERED'] = '1'
 
-
 pygame.init()
 pygame.mixer.init()
 
@@ -15,13 +14,9 @@ one_deck = 4 * cards
 decks = 4                   
 WIDTH = 600
 HEIGHT = 1100
-screen = pygame.display.set_mode([WIDTH, HEIGHT],pygame.FULLSCREEN)
 pygame.display.set_caption('Pygame Blackjack !')
 fps = 60
 timer = pygame.time.Clock()
-font = pygame.font.Font('freesansbold.ttf', 44)
-smaller_font = pygame.font.Font('freesansbold.ttf', 36)
-tiny_font = pygame.font.Font('freesansbold.ttf',24)
 active = False
 #Win, Loss, draw/push
 records =[0, 0, 0]
@@ -39,11 +34,38 @@ results = ['','PLAYER BUSTED o_0', 'PLAYER WINS 8 :)',' DEALER WINS :(', 'TIE GA
 game_state = "MENU"
 
 
-info = pygame.display.Info()
-screen_width, screen_height = info.current_w, info.current_h
+#scherm aanmaken
+
+screen = pygame.display.set_mode((0, 0), pygame.NOFRAME)
+
+#Basis resolutie
+BASE_W = 600
+BASE_H = 1100
+
+#Huidige schermgrooteophalen
+SW, SH = screen.get_size()
+
+#schaalfactoren berekenen
+SX = SW / BASE_W
+SY = SH / BASE_H
+
+def s(x, y, w, h):
+    return [int(x* SX), int(y* SY), int(w* SX), int(h * SY)]
+
+def sx(x): return int(x * SX)
+def sy(y): return int(y * SY)
+
+font = pygame.font.Font('freesansbold.ttf', int(32 * SY))
+smaller_font = pygame.font.Font('freesansbold.ttf', int(36 * SY))
+tiny_font = pygame.font.Font('freesansbold.ttf', int(24 * SY))
 
 
-screen = pygame.display.set_mode((screen_width - 10, screen_height -50))
+#load img
+img = pygame.image.load('openclipart-vectors-card-games-146687_1280.png')
+img = pygame.transform.scale(img, (screen.get_width(), screen.get_height()))
+
+
+    
 
 
 #deal cards by selecting randomly from ddeck, and make function for one card at a time
@@ -55,30 +77,44 @@ def deal_cards(current_hand,current_deck):
 
 # draw scores for player and dealer on screen
 def draw_scores(player, dealer):
-    screen.blit(font.render(f'score[{player}]', True, 'white'), (350,400))
+    screen.blit(font.render(f'score[{player}]', True, 'white'),  (sx(370), sy(420)))
     if reveal_dealer:
-        screen.blit(font.render(f'score[{dealer}]', True, 'white'), (350,100))
-
+        screen.blit(font.render(f'score[{dealer}]', True, 'white'), (sx(370), sy(100)))
 
 
 #draw cards visually onto screen (Voor elke kaart van de speler wordt een visuele speelkaart getekend met tekst en rand, netjes naast elkaar.)
 def draw_cards(player, dealer , reveal):
+    card_w = int(40 * SX)
+    card_h = int(200* SY)
+    gap = int(card_w + 6)
+
+     # Centreer BEIDE rijen apart
+    player_start_x = (SW - (len(player) * gap - 6)) // 2
+    dealer_start_x = (SW - (len(dealer) * gap - 6)) // 2
+
+    dealer_y = int(SH * 0.10)   # dealer BOVENAAN
+    player_y = int(SH * 0.42)   # speler in het MIDDEN
+
     for i in range(len(player)):
-        pygame.draw.rect(screen, 'white', [70 + (70 * i), 460 + (5 * i), 120, 220] , 0, 5)
-        screen.blit(font.render(player[i], True, 'Black'),(75 + 70*i, 465 + 5*i))
-        screen.blit(font.render(player[i], True, 'Black'),(75 + 70*i, 635 + 5*i))
-        pygame.draw.rect(screen, 'red', [70 + (70 * i), 460 + (5 * i), 120, 220] , 5, 5)
+        x = player_start_x + gap * i
+        y = player_y
+        pygame.draw.rect(screen, 'white', [x, y, card_w, card_h], 0, 5)
+        pygame.draw.rect(screen, 'red',   [x, y, card_w, card_h], 3, 5)
+        screen.blit(font.render(player[i], True, 'Black'), (x + 4, y + 4))
+        screen.blit(font.render(player[i], True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
 
     #if player hasn't finished turn, dealer will hide one card
     for i in range(len(dealer)):
-        pygame.draw.rect(screen, 'white', [70 + (70 * i), 160 + (5 * i), 120, 220] , 0, 5)
+        x = dealer_start_x + gap * i 
+        y = dealer_y
+        pygame.draw.rect(screen, 'white', [x, y, card_w, card_h], 0, 5)
+        pygame.draw.rect(screen, 'blue',  [x, y, card_w, card_h], 3, 5) 
         if i != 0 or reveal:
-            screen.blit(font.render(dealer[i], True, 'Black'),(75 + 70*i, 165 + 5*i))
-            screen.blit(font.render(dealer[i], True, 'Black'),(75 + 70*i, 335 + 5*i))
+            screen.blit(font.render(dealer[i], True, 'Black'), (x + 4, y + 4))
+            screen.blit(font.render(dealer[i], True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
         else:
-            screen.blit(font.render('???', True, 'Black'),(75 + 70*i, 165 + 5*i))
-            screen.blit(font.render('???', True, 'Black'),(75 + 70*i, 335 + 5*i))
-        pygame.draw.rect(screen, 'blue', [70 + (70 * i), 160 + (5 * i), 120, 220] , 5, 5)
+            screen.blit(font.render('???', True, 'Black'), (x + 4, y + 4))
+            screen.blit(font.render('???', True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
 
 #pass in player or dealer hand and get best score possible 
 def calculate_score(hand):
@@ -108,44 +144,63 @@ def calculate_score(hand):
 def draw_game(act, record,result):
     button_list = []
 
-    #main menu knop (altijd zichtbaar)
-    menu_btn = pygame.draw.rect(screen, 'light gray', [390, 10, 200, 40], 0, 5)
-    pygame.draw.rect(screen, 'dark gray', [390, 10, 200, 40], 5, 5)
-    text = tiny_font.render('Main Menu', True, 'white')
-    screen.blit(text, (395, 17))
-    button_list.append(menu_btn) 
+    #main menu knop (altijd zichtbaar) rechts bovenaan
+    menu_btn = pygame.draw.rect(screen, 'light gray', [SW - 170, 15, 155, 35], 0, 5)
+    pygame.draw.rect(screen, 'dark gray', [SW - 170, 15, 155, 35], 3, 5)
+    menu_text = tiny_font.render('Main Menu', True, 'white')
+    screen.blit(menu_text, menu_text.get_rect(center=(SW - 93, 32)))
+    button_list.append(menu_btn)
 
 
     #initially on startup (not active) only option is to deal new hand
     if not act:
-        deal = pygame.draw.rect(screen, 'white', [150, 150, 300, 100], 0, 5)
-        pygame.draw.rect(screen, 'Black', [150, 150, 300, 100], 3, 5)
+        btn_w = 250
+        btn_h = int(60 * SY)
+        btn_x = (SW - btn_w) // 2
+        btn_y = int(SH * 0.45)
+        deal = pygame.draw.rect(screen, 'white', [btn_x, btn_y, btn_w, btn_h], 0, 8)
+        pygame.draw.rect(screen, 'black', [btn_x, btn_y, btn_w, btn_h], 3, 8)
         deal_text = font.render('DEAL HAND', True, 'black')
-        screen.blit(deal_text, (165,180))
+        screen.blit(deal_text, deal_text.get_rect(center=(btn_x + btn_w // 2, btn_y + btn_h // 2)))
         button_list.append(deal)
     # once game started, shot hit and stand buttons and win/loss records
     else:
-        hit = pygame.draw.rect(screen, 'white', [0, 700, 300, 100], 0, 5)
-        pygame.draw.rect(screen, 'Black', [0, 700, 300, 100], 3, 5)
-        hit_text = font.render('HIT ME', True, 'black')
-        screen.blit(hit_text, (55,735))
+        btn_h = int(60 * SY)
+        btn_w = 200
+        btn_y = int(SH * 0.82)
+
+        # HIT ME links gecentreerd
+        hit_x = (SW // 2 - btn_w) -20
+        hit = pygame.draw.rect(screen, 'white', [hit_x, btn_y, btn_w, btn_h], 0, 8)
+        pygame.draw.rect(screen, 'white', [hit_x, btn_y, btn_w, btn_h], 3, 8)
+        text = font.render('HIT ME', True, 'black')
+        screen.blit(text, text.get_rect(center=(hit_x + btn_w // 2, btn_y + btn_h // 2)))
         button_list.append(hit)
-        stand = pygame.draw.rect(screen, 'white', [300, 700, 300, 100], 0, 5)
-        pygame.draw.rect(screen, 'Black', [300, 700, 300, 100], 3, 5)
-        stand_text = font.render('STAND', True, 'black')
-        screen.blit(stand_text, (355,735))
+
+         # STAND rechts gecentreerd
+        stand_x = SW // 2 + 20
+        stand = pygame.draw.rect(screen, 'white', [stand_x, btn_y, btn_w, btn_h], 0, 8)
+        pygame.draw.rect(screen, 'White', [stand_x, btn_y, btn_w, btn_h], 3, 8)
+        text = font.render('STAND', True, 'black')
+        screen.blit(text, text.get_rect(center=(stand_x + btn_w // 2, btn_y + btn_h // 2)))
         button_list.append(stand)
+
         score_text = smaller_font.render(f'Wins: {record[0]}  Losses: {record[1]}   Draws:{record[2]}' , True, 'white' )
-        screen.blit(score_text, (15, 840))
+        screen.blit(score_text,(sx(15), int(SH * 0.92)))
+
     # if there is an outcome for the hand that was played, display a restart button and tell user what happened
     if result != 0:
-        screen.blit(font.render(results[result], True, 'white'),(15, 25))
-        deal = pygame.draw.rect(screen, 'white', [150, 950, 300, 60], 0, 5)
-        pygame.draw.rect(screen, 'green', [150, 950, 300, 60], 3, 5)
-        pygame.draw.rect(screen, 'black', [153, 953, 294, 54], 3, 5)
-        deal_text = font.render('NEW HAND', True, 'black')
-        screen.blit(deal_text, (175,965))
+        screen.blit(font.render(results[result], True, 'white'), (20, int(SH * 0.05)))
+        btn_w = 250
+        btn_h = int(60 * SY)
+        btn_x = (SW - btn_w) // 2
+        btn_y = int(SH * 0.88)
+        deal = pygame.draw.rect(screen, 'white', [btn_x, btn_y, btn_w, btn_h], 0, 8)
+        pygame.draw.rect(screen, 'green', [btn_x, btn_y, btn_w, btn_h], 3, 8)
+        text = font.render('NEW HAND', True, 'black')
+        screen.blit(text, text.get_rect(center=(btn_x + btn_w // 2, btn_y + btn_h // 2)))
         button_list.append(deal)
+
     return button_list
 
 #check endgame conditions function
@@ -176,13 +231,25 @@ def check_endgame(hand_act, dealer_score, player_score, result, totals, add):
 def draw_menu():
     screen.fill('darkgreen')
 
-    start_btn = pygame.draw.rect(screen, 'green', [190, 310, 260, 60], 0, 5)
-    start_text = smaller_font.render('START GAME', True, 'white')
-    screen.blit(start_text, (205, 322))
+    # Titel + img
+    title = font.render('BLACKJACK ', True, 'white')
+    screen.blit(title, title.get_rect(center=( screen.get_size()[0] / 2 , sy(50))))
+    screen.blit(img, (0, 0)) 
 
-    quit_btn = pygame.draw.rect(screen, 'red', [190, 400, 260, 60], 0, 5)
-    quit_text = smaller_font.render('QUIT GAME', True,'White')
-    screen.blit(quit_text, (215,412))
+    btn_w = 300
+    btn_x = screen.get_size()[0] / 2 - btn_w / 2
+    start_btn = pygame.draw.rect(screen, 'green',  (btn_x, sy(420), btn_w, sy(65)), 0, 8)
+    pygame.draw.rect(screen, 'dark green', (btn_x, sy(420), btn_w, sy(65)), 3, 8)
+    start_text = smaller_font.render('START GAME', True, 'white')
+    screen.blit(start_text, start_text.get_rect(center=(btn_x + btn_w / 2, sy(420) + sy(65) / 2)))
+
+    btn_w = 300
+    btn_x = screen.get_size()[0] / 2 - btn_w / 2
+    quit_btn = pygame.draw.rect(screen, 'red', (btn_x, sy(510), btn_w, sy(65)), 0, 8)
+    pygame.draw.rect(screen, 'dark red', (btn_x, sy(510), btn_w, sy(65)), 3, 8)
+    quit_text = smaller_font.render('QUIT GAME', True, 'white')
+    screen.blit(quit_text, quit_text.get_rect(center=(btn_x + btn_w / 2, sy(510) + sy(65) / 2)))
+
 
     return start_btn, quit_btn
 
@@ -201,6 +268,7 @@ while run:
     # run game at our framerate and fill screen with bg color
     timer.tick(fps)
     screen.fill('darkgreen')
+
 
     if game_state == "MENU":
         start_btn, quit_btn = draw_menu()
