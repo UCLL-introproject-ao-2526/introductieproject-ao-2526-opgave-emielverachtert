@@ -1,4 +1,4 @@
-## 03 April 2026 (1 hour)
+## 03 April 2026 (1 uur)
 
 Ik ben gestart met het volgen van de tutorial en heb de stappen stap voor stap uitgevoerd. Al snel merkte ik een eerste fout op: font not initialized. Deze fout kwam ook voor in de tutorial zelf. Daar werd een oplossing gegeven door pygame.init() bovenaan bij de variabelen te plaatsen. Hierdoor worden alle pygame-modules geïnitialiseerd, wat nodig is voor de onderdelen die later in de code gebruikt worden.
 
@@ -6,7 +6,7 @@ Na deze eerste fout volgde een tweede fout: KeyboardInterrupt. In het begin was 
 
 De conclusie is dus dat dit geen echte fout is, maar dat ik het spelvenster gewoon moet laten openstaan in plaats van het programma zelf te stoppen.
 
-## 04 MEI 2026 (  2 Hours  20 minute ) (filmpje 50:00)
+## 04 MEI 2026 (  2 uur  20 minuten ) (filmpje 50:00)
 
 vandaag werk ik verder aan mijn project , het eerste wat mij opvalt is dat het al even geleden is dat ik dit project open gehad heb.Hierdoorweet ik niet zo goed meer waar ik preceis mee bezig was hierdoor ondervindt ik ook waarom een logboek handig kan zijn. Dus lees ik even mijn logboek en  spoel ik de video een beetje terug en kijk ik ook naar de code die ik al geschreven heb.
 
@@ -17,7 +17,7 @@ voor nu werk ik verder aan het project en heb ik ervoor gezorgd dat  De dealerka
 Er valt mij nu ook op dat normaal in echte blackjack de eerste kaart zichtbaar is en de 
 tweede kaart verborgen. Ik ben benieuwd of dit in de verdere tutorial aangepast gaat worden , zo niet is dit al een idee om in mijn verdere uitbreiding aan te passen.
 
-## 06 MEI 2026 ( 1 Hours 30 minutes  ) (Einde tutorial)
+## 06 MEI 2026 ( 1 uur 30 minuten  ) (Einde tutorial)
 
 Ik werk verder aan de game, Nu probeer ik om de scores van mezelf en de dealer op het scherm te krijgen. Een eerste fout dat ik opmerk is dat bij de dealer de score 0 komt te staan, gellukig is hier in de tutorial al een oplossing voor.
 Tijdens het volgen van de tutorial kreeg ik af en toe errors deze errors waren vrij gemakkelijk op te lossen. De error ging vaak over een typfout wat zeer belangerijk is want anders werken bepaalde functies niet.
@@ -66,7 +66,7 @@ De menu knop staat wel heel ongemakkelijk in het midden als ik de game speel , d
 
 
 
-## 10 MEI 2026 (   2 uur)
+## 10 MEI 2026 (   3 uur)
  Nu speel ik de game nog eens en er valt me iets op de loss counter blijft optellen, ik test of dit bij win counter ook het geval is en merk op dat dit ook bij de win counter blijft optellen dus er is duidelijk iets misgelopen ..
 
 Het probleem was dat add = False die altijd buiten de if moet staan niet buiten de if stond maar binnen. Hierdoor bleef de win / loss counter optellen .. 
@@ -90,7 +90,7 @@ UI aanpassingen:
 
 
 
-## 11 MEI 2026 ( 2 uur   )
+## 11 MEI 2026 ( 3 uur   )
 
 Ik ga nu verder met het oplossen van het vorige probleem.
 het probleem was dat als het spel gedaan was dat ik geen nieuw spel kon starten de button was verdwenen. 
@@ -113,7 +113,7 @@ Ik kreeg een attribute error dit kwam doordat ik de twee buttons als een tuple b
 Tijdens deze sessie merkte ik ook op dat er veel aanpassingen nodig zijn aan de UI als ik een nieuwe functie maak en dat ik er dan voor moet zorgen dat de andere functies ook aangepast worden.
 
 
-## 14 MEI 2026 (2 u)
+## 14 MEI 2026 (3 uur)
 
 Ik heb er nu voor gezorgd dat mijn game aangenamer is voor de speler , ik heb een menu gemaakt waar de speler kan kiezen om het spel te starten of om te stoppen.
 ook heb ik de UI aantrekkelijker gemaakt door kleuraanpassingen te doen en om een muziekje toe te voegen als de game opgestart wordt.
@@ -132,7 +132,7 @@ Welke mogelijke oplossingen kan ik toepassen zodat de knoppen altijd correct op 
 een mogelijke oplossing die ik krijg is het gebruik maken van relatieve posities en schaalfactoren. Om hier meer over te weten ga ik dit eens opzoeken , zo krijg ik een beter inzicht over relatieve posities en schaalfactoren.
 
 
-## 17 MEI 2026 (3 u)
+## 17 MEI 2026 (3 uur)
 
  Responsive Design toepassen in Pygame Blackjack
 
@@ -153,13 +153,13 @@ Ik merk ook dat het veel beter was geweest om responsive design vanaf het begin 
 
 
 
-## 22 MEI 2026 (2 u)
+## 22 MEI 2026 (3 u)
 
-Nu ga ik mijn project mooi afwerken. Ik ga nu ervoor zorgen dat alle buttons en tekst correct staan. Nadien speel ik het spel nog eens om er zeker van te zijn dat alles correct werkt. Ik begin met het startscherm en het valt me op dat de titel nog niet mooi gecentreerd staat dus pas ik dit aan.
+Nu ga ik mijn project mooi afwerken. Ik ga ervoor zorgen dat alle buttons en tekst correct staan en dat de algemene lay-out er verzorgd uitziet. Nadien speel ik het spel nog eens volledig door om er zeker van te zijn dat alles correct werkt. Ik begin met het startscherm en het valt me meteen op dat de titel nog niet mooi gecentreerd staat, dus pas ik dit als eerste aan.
 
-Ik wou de Title centreren maar gaf eerst vaste cordinaten mee , al snel besefte ik dat dit niet werkt op andere schermformaten omdat ik eerder al een responsive design had toegepast. De oplossing hiervoor was om screen.get_size()[0] / 2 te doen. zodat het midden altijd dynamisch berekend wordt. 
+Ik wou de titel centreren maar gaf eerst vaste coördinaten mee. Al snel besefte ik dat dit niet werkt op andere schermformaten, omdat ik eerder al een responsive design had toegepast. Het probleem was dus dat een hardcoded x-waarde er op mijn scherm goed uitzag, maar op een ander scherm volledig verschoven zou staan. De oplossing was om `screen.get_size()[0] / 2` te gebruiken, zodat het midden altijd dynamisch berekend wordt op basis van de huidige schermbreedte.
 
-Ik merk dat het speelveld mijn tweede monitor ook bedekt en dat is niet de bedoeling. info current geeft de breedte van beide schermen terug dus probeerde ik om met min(info.current... de breedte te beperking uiteindelijk heb ik meerdere dingen in mijn code verwijderd en screen = pygame.display.set_mode((0, 0), pygame.NOFRAME) toegevoegd. ik dacht dat info.curent_w de breedte van mijn scherm terug geeft maar heb geleerd dat pygame de breedte van alle schermen samen terug geeft.
+Daarna merk ik dat het speelveld mijn tweede monitor ook bedekt, wat uiteraard niet de bedoeling is. Ik probeer dit op te lossen via `pygame.display.Info()`, maar al snel blijkt dat `info.current_w` de gecombineerde breedte van alle schermen samen teruggeeft in plaats van enkel het main scherm. Ik probeer dan met `min(info.current_w, ...)` de breedte te beperken, maar dit geeft niet het gewenste resultaat. Uiteindelijk kies ik voor een andere aanpak: ik verwijder de overbodige schermconfiguratie en voeg `screen = pygame.display.set_mode((0, 0), pygame.NOFRAME)` toe. Dit zorgt ervoor dat het venster correct op één scherm blijft zonder een vaste resolutie hard te coderen. Een nuttige les: pygame geeft bij multi-monitor setups de totale breedte terug, niet de breedte van één enkel scherm.
 
 Nu dat ik op het einde van de opdracht zit stuur ik een mail naar mijn Lector om feedback te vragen.
 
