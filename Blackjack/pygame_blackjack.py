@@ -3,7 +3,7 @@ import random
 import pygame
 import os
 
-os.environ['SDL_VIDEO-CENTERED'] = '1'
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 
 pygame.init()
 pygame.mixer.init()
@@ -28,38 +28,35 @@ dealer_hand = []
 outcome = 0
 reveal_dealer = False
 hand_active = False
-outcome = 0
 add_score = False
 results = ['','PLAYER BUSTED o_0', 'PLAYER WINS 8 :)',' DEALER WINS :(', 'TIE GAME...']
 game_state = "MENU"
 
 
 #scherm aanmaken
-
 screen = pygame.display.set_mode((0, 0), pygame.NOFRAME)
 
 #Basis resolutie
-BASE_W = 600
-BASE_H = 1100
+BASE_WIDTH = 600
+BASE_HEIGHT = 1100
 
-#Huidige schermgrooteophalen
-SW, SH = screen.get_size()
+#Huidige schermgroote ophalen 
+screen_width, screen_height = screen.get_size()
 
-#schaalfactoren berekenen
+#schaalfactoren berekenen hroizontaal/verticaal
 
-#[dn] variabele namen kunnen better, als ik SX in je code zie, weet ik niet waarover het gaat. Dat gaat ook op voor de volgende functies
-SX = SW / BASE_W
-SY = SH / BASE_H
+scale_x = screen_width / BASE_WIDTH
+scale_y = screen_height / BASE_HEIGHT
 
 def s(x, y, w, h):
-    return [int(x* SX), int(y* SY), int(w* SX), int(h * SY)]
+    return [int(x* scale_x), int(y* scale_y), int(w* scale_x), int(h * scale_y)]
 
-def sx(x): return int(x * SX)
-def sy(y): return int(y * SY)
+def sx(x): return int(x * scale_x)
+def sy(y): return int(y * scale_y)
 
-font = pygame.font.Font('freesansbold.ttf', int(32 * SY))
-smaller_font = pygame.font.Font('freesansbold.ttf', int(36 * SY))
-tiny_font = pygame.font.Font('freesansbold.ttf', int(24 * SY))
+font = pygame.font.Font('freesansbold.ttf', int(32 * scale_y))
+smaller_font = pygame.font.Font('freesansbold.ttf', int(36 * scale_y))
+tiny_font = pygame.font.Font('freesansbold.ttf', int(24 * scale_y))
 
 
 #load img
@@ -69,8 +66,7 @@ img = pygame.transform.scale(img, (screen.get_width(), screen.get_height()))
 
     
 
-#[dn] typo in comment. Zorg dat je altijd je spellcheck aan hebt staan in vscode
-#deal cards by selecting randomly from ddeck, and make function for one card at a time
+#deal cards by selecting randomly from deck, and make function for one card at a time
 def deal_cards(current_hand,current_deck):
     card = random.randint(0, len(current_deck))
     current_hand.append(current_deck[card-1])
@@ -86,38 +82,37 @@ def draw_scores(player, dealer):
 
 #draw cards visually onto screen (Voor elke kaart van de speler wordt een visuele speelkaart getekend met tekst en rand, netjes naast elkaar.)
 def draw_cards(player, dealer , reveal):
-    card_w = int(40 * SX)
-    card_h = int(200* SY)
-    gap = int(card_w + 6)
+    card_w = int(40 * scale_x)
+    card_h = int(200* scale_y)
+    card_spacing = int(card_w + 6)
 
-     # Centreer BEIDE rijen apart
-    player_start_x = (SW - (len(player) * gap - 6)) // 2
-    dealer_start_x = (SW - (len(dealer) * gap - 6)) // 2
+     # Centreer allebei de rijen apart
+    player_start_x = (screen_width - (len(player) * card_spacing - 6)) // 2
+    dealer_start_x = (screen_width - (len(dealer) * card_spacing - 6)) // 2
 
-    dealer_y = int(SH * 0.10)   # dealer BOVENAAN
-    player_y = int(SH * 0.42)   # speler in het MIDDEN
+    dealer_y = int(screen_height * 0.10)   # dealer BOVENAAN
+    player_y = int(screen_height * 0.42)   # speler in het MIDDEN
 
     for i in range(len(player)):
-        x = player_start_x + gap * i
+        x = player_start_x + card_spacing * i
         y = player_y
         pygame.draw.rect(screen, 'white', [x, y, card_w, card_h], 0, 5)
         pygame.draw.rect(screen, 'red',   [x, y, card_w, card_h], 3, 5)
         screen.blit(font.render(player[i], True, 'Black'), (x + 4, y + 4))
-        screen.blit(font.render(player[i], True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
+        screen.blit(font.render(player[i], True, 'Black'), (x + 4, y + card_h - int(38 * scale_y)))
 
     #if player hasn't finished turn, dealer will hide one card
     for i in range(len(dealer)):
-        #[dn] zelfde opmerking met gap. Welke gap? Een betere variabelenaam zou hier helpen
-        x = dealer_start_x + gap * i 
+        x = dealer_start_x + card_spacing * i 
         y = dealer_y
         pygame.draw.rect(screen, 'white', [x, y, card_w, card_h], 0, 5)
         pygame.draw.rect(screen, 'blue',  [x, y, card_w, card_h], 3, 5) 
         if i != 0 or reveal:
             screen.blit(font.render(dealer[i], True, 'Black'), (x + 4, y + 4))
-            screen.blit(font.render(dealer[i], True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
+            screen.blit(font.render(dealer[i], True, 'Black'), (x + 4, y + card_h - int(38 * scale_y)))
         else:
             screen.blit(font.render('???', True, 'Black'), (x + 4, y + 4))
-            screen.blit(font.render('???', True, 'Black'), (x + 4, y + card_h - int(38 * SY)))
+            screen.blit(font.render('???', True, 'Black'), (x + 4, y + card_h - int(38 * scale_y)))
 
 #pass in player or dealer hand and get best score possible 
 def calculate_score(hand):
@@ -125,7 +120,7 @@ def calculate_score(hand):
     hand_score = 0
     aces_count = hand.count('A')
     for i in range(len(hand)):
-        #for 2,3,4,5,6,7,8,9, - just add the number to totall
+        #for 2,3,4,5,6,7,8,9, - just add the number to total
         for j in range(8):
             if hand[i] == cards[j]:
                 hand_score += int(hand[i])
@@ -145,66 +140,66 @@ def calculate_score(hand):
 
 #draw game conditions and buttons
 def draw_game(act, record,result):
-    button_list = []
+    btn_list = []
 
     #main menu knop (altijd zichtbaar) rechts bovenaan
-    menu_btn = pygame.draw.rect(screen, 'light gray', [SW - 170, 15, 155, 35], 0, 5)
-    pygame.draw.rect(screen, 'dark gray', [SW - 170, 15, 155, 35], 3, 5)
+    menu_btn = pygame.draw.rect(screen, 'light gray', [screen_width - 170, 15, 155, 35], 0, 5)
+    pygame.draw.rect(screen, 'dark gray', [screen_width - 170, 15, 155, 35], 3, 5)
     menu_text = tiny_font.render('Main Menu', True, 'white')
-    screen.blit(menu_text, menu_text.get_rect(center=(SW - 93, 32)))
-    button_list.append(menu_btn)
+    screen.blit(menu_text, menu_text.get_rect(center=(screen_width - 93, 32)))
+    btn_list.append(menu_btn)
 
 
     #initially on startup (not active) only option is to deal new hand
     if not act:
         btn_w = 250
-        btn_h = int(60 * SY)
-        btn_x = (SW - btn_w) // 2
-        btn_y = int(SH * 0.45)
+        btn_h = int(60 * scale_y)
+        btn_x = (screen_width - btn_w) // 2
+        btn_y = int(screen_height * 0.45)
         deal = pygame.draw.rect(screen, 'white', [btn_x, btn_y, btn_w, btn_h], 0, 8)
         pygame.draw.rect(screen, 'black', [btn_x, btn_y, btn_w, btn_h], 3, 8)
         deal_text = font.render('DEAL HAND', True, 'black')
         screen.blit(deal_text, deal_text.get_rect(center=(btn_x + btn_w // 2, btn_y + btn_h // 2)))
-        button_list.append(deal) #[dn] consistentie: gebruik ofwel alijd btn, ofwel altijd button
+        btn_list.append(deal) #[dn] consistentie: gebruik ofwel alijd btn, ofwel altijd button
     # once game started, shot hit and stand buttons and win/loss records
     else:
-        btn_h = int(60 * SY)
-        btn_w = 200 #[dn] vreemd dat je verticaal scaled, maar niet horizontaal
-        btn_y = int(SH * 0.82)
+        btn_h = int(60 * scale_y)
+        btn_w = int(200* scale_x) #[dn] vreemd dat je verticaal scaled, maar niet horizontaal
+        btn_y = int(screen_height * 0.82)
 
         # HIT ME links gecentreerd
-        hit_x = (SW // 2 - btn_w) -20
+        hit_x = (screen_width // 2 - btn_w) -20
         hit = pygame.draw.rect(screen, 'white', [hit_x, btn_y, btn_w, btn_h], 0, 8)
         pygame.draw.rect(screen, 'white', [hit_x, btn_y, btn_w, btn_h], 3, 8)
         text = font.render('HIT ME', True, 'black')
         screen.blit(text, text.get_rect(center=(hit_x + btn_w // 2, btn_y + btn_h // 2)))
-        button_list.append(hit)
+        btn_list.append(hit)
 
          # STAND rechts gecentreerd
-        stand_x = SW // 2 + 20
+        stand_x = screen_width // 2 + 20
         stand = pygame.draw.rect(screen, 'white', [stand_x, btn_y, btn_w, btn_h], 0, 8)
         pygame.draw.rect(screen, 'White', [stand_x, btn_y, btn_w, btn_h], 3, 8)
         text = font.render('STAND', True, 'black')
         screen.blit(text, text.get_rect(center=(stand_x + btn_w // 2, btn_y + btn_h // 2)))
-        button_list.append(stand)
+        btn_list.append(stand)
 
         score_text = smaller_font.render(f'Wins: {record[0]}  Losses: {record[1]}   Draws:{record[2]}' , True, 'white' )
-        screen.blit(score_text,(sx(15), int(SH * 0.92)))
+        screen.blit(score_text,(sx(15), int(screen_height * 0.92)))
 
     # if there is an outcome for the hand that was played, display a restart button and tell user what happened
     if result != 0:
-        screen.blit(font.render(results[result], True, 'white'), (20, int(SH * 0.05)))
+        screen.blit(font.render(results[result], True, 'white'), (20, int(screen_height * 0.05)))
         btn_w = 250
-        btn_h = int(60 * SY)
-        btn_x = (SW - btn_w) // 2
-        btn_y = int(SH * 0.88)
+        btn_h = int(60 * scale_y)
+        btn_x = (screen_width - btn_w) // 2
+        btn_y = int(screen_height * 0.88)
         deal = pygame.draw.rect(screen, 'white', [btn_x, btn_y, btn_w, btn_h], 0, 8)
         pygame.draw.rect(screen, 'green', [btn_x, btn_y, btn_w, btn_h], 3, 8)
         text = font.render('NEW HAND', True, 'black')
         screen.blit(text, text.get_rect(center=(btn_x + btn_w // 2, btn_y + btn_h // 2)))
-        button_list.append(deal)
+        btn_list.append(deal)
 
-    return button_list
+    return btn_list
 
 #check endgame conditions function
 def check_endgame(hand_act, dealer_score, player_score, result, totals, add):
@@ -312,8 +307,7 @@ while run:
             run = False
         
         #MENU EVENTS
-        if game_state == "MENU":
-            if event.type == pygame.MOUSEBUTTONUP:
+        if game_state == "MENU" and event.type == pygame.MOUSEBUTTONUP:
                 if start_btn.collidepoint(event.pos):
                     game_state ="GAME"
                 if quit_btn.collidepoint(event.pos):
@@ -322,9 +316,7 @@ while run:
         #Game events
         else:
             if event.type == pygame.MOUSEBUTTONUP:
-                if not active:
-                    if buttons[1].collidepoint(event.pos):
-                        #[dn] hier ben je wel idep aan het nesten. Je kan met 'and' meerdere condities checken in 1 if. 
+                if not active and buttons[1].collidepoint(event.pos):
                         #[dn] probeer maximaal 3 'levels' te indenteren
                         #[dn] gebruik eventueel kleinere functies
                         active = True
