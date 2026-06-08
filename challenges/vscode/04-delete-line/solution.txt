@@ -1,1 +1,1 @@
-control + shift + k
+ctrl+shift+k
